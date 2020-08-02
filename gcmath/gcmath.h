@@ -3,6 +3,7 @@
 #define GCMATH_H_
 #include <cmath>
 #include <string>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -19,9 +20,14 @@ typedef double DOUBLE;
 typedef long double LDOUBLE;
 typedef float FLOAT;
 
+struct {
+	UINT accuracy = 100;
+	BOOL mulmode = 0;
+}GCMath_Setting;
+
 class gcnum 
 {
-public:
+public:	
 	gcnum();
 	gcnum(UINT val);
 	gcnum(INT val);
@@ -36,7 +42,9 @@ public:
 	gcnum(const char* val);
 	std::string getstr();
 	const char* getcstr();
-	const double getnum();
+	const LDOUBLE getnum();
+	const ULLONG getdec();
+	const ULLONG getint();
 
 	bool operator==(const gcnum& val);
 	bool operator!=(const gcnum& val);
@@ -113,15 +121,38 @@ public:
 	gcnum& operator=(const char& val);
 	gcnum& operator=(const BYTE& val);
 
+	gcnum& operator>>(const int& val);
+	gcnum& operator<<(const int& val);
+
 	friend std::istream& operator>>(std::istream& in, gcnum& obj);
 	friend std::ostream& operator<<(std::ostream& out, gcnum obj);
 
-private:
-	static int compare(const gcnum& a, const gcnum& b);
-	static void INTADD(const gcnum& a, const gcnum& b, gcnum& result);
-	static void INTSUB(const gcnum& a, const gcnum& b, gcnum& result);
+	friend std::ifstream& operator>>(std::ifstream& in, gcnum& obj);
+	friend std::ofstream& operator<<(std::ofstream& out, gcnum& obj);
+	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+	void DECDIV(const gcnum& val, gcnum& quo, gcnum& rem);
 	void GCDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+private:
+// 	static struct point{
+// 		ULLONG start, end, length;
+// 		point(ULLONG start,ULLONG end) {
+// 			this->length = end - start + 1;
+// 			this->start = start;
+// 			this->end = end;
+// 		}
+// 	};
+	static int compare(const gcnum& a, const gcnum& b);
+	static int divcompare(const gcnum& a, const gcnum& b);
+	static gcnum INTADD(const gcnum& a, const gcnum& b);
+	static gcnum INTSUB(const gcnum& a, const gcnum& b);
+// 	void GCDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+// 	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+// 	void DECDIV(const gcnum& val, gcnum& quo, gcnum& rem);
 	void GCMUL(const gcnum& val, gcnum& result);
+	static gcnum ELMOVE(const ULLONG& val);
+	gcnum& LEFTMOVE(const ULLONG& val);
+	gcnum& RIGHTMOVE(const ULLONG& val);
+	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
 	static LLONG Dvalue(const LLONG& a, const LLONG& b);
 	std::vector<BYTE> Data;
 	int sign = 0;
