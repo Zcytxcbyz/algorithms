@@ -9,147 +9,77 @@ gcnum::gcnum(){ }
 
 gcnum::gcnum(UINT val)
 {
-	if (val == 0) Data.push_back(0);
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(INT val)
 {
-	if (val == 0) Data.push_back(0);
-	if (val < 0) {
-		sign = 1;
-		val = abs(val);
-	}
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(ULONG val)
 {
-	if (val == 0) Data.push_back(0);
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(LONG val)
 {
-	if (val == 0) Data.push_back(0);
-	if (val < 0) {
-		sign = 1;
-		val = abs(val);
-	}
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(ULLONG val)
 {
-	if (val == 0) Data.push_back(0);
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(LLONG val)
 {
-	if (val == 0) Data.push_back(0);
-	if (val < 0) {
-		sign = 1;
-		val = abs(val);
-	}
-	while (val > 0) {
-		Data.push_back(val % 10);
-		val /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(DOUBLE val)
 {
-	if (val == 0) Data.push_back(0);
-	LDOUBLE lval = val;
-	if (lval < 0) {
-		sign = 1;
-		lval = abs(lval);
-	}
-	while (floor(lval) != lval)
-	{
-		lval *= 10;
-		++decimals;
-	}
-	ULLONG temp = lval;
-	while (temp > 0) {
-		Data.push_back(temp % 10);
-		temp /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(LDOUBLE val)
 {
-	if (val == 0) Data.push_back(0);
-	if (val < 0) {
-		sign = 1;
-		val = abs(val);
-	}
-	while (floor(val) != val)
-	{
-		val *= 10;
-		++decimals;
-	}
-	ULLONG temp = val;
-	while (temp > 0) {
-		Data.push_back(temp % 10);
-		temp /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(FLOAT val)
 {
-	if (val == 0) Data.push_back(0);
-	LDOUBLE lval = val;
-	if (lval < 0) {
-		sign = 1;
-		lval = abs(lval);
-	}
-	while (floor(lval) != lval)
-	{
-		lval *= 10;
-		++decimals;
-	}
-	ULLONG temp = lval;
-	while (temp > 0) {
-		Data.push_back(temp % 10);
-		temp /= 10;
-	}
+	std::string str = std::to_string(val);
+	*this = gcnum(str);
 }
 
 gcnum::gcnum(const std::string& val)
 {
-	for (LLONG i = val.length() - 1; i >= 0; --i) {
+	for (int i = val.length() - 1; i >= 0; --i) {
 		if (val[i] == '-') {
 			sign = 1;
 		}
 		else if (val[i] == '.') {
-			decimals = val.length() - i - 1;
+			decimals = (int)val.length() - i - 1;
 		}
 		else {
-			gcnum::Data.push_back(val[i] - '0');
+			Data.push_back(val[i] - '0');
 		}
 	}
+	this->correct();
 }
 
 gcnum::gcnum(const char* val)
 {
-	for (LLONG i = strlen(val) - 1; i >= 0; --i) {
+	for (int i = strlen(val) - 1; i >= 0; --i) {
 		if (val[i] == '-') {
 			sign = 1;
 		}
@@ -160,12 +90,13 @@ gcnum::gcnum(const char* val)
 			gcnum::Data.push_back(val[i] - '0');
 		}
 	}
+	this->correct();
 }
 
 std::string gcnum::getstr()
 {
 	std::string result;
-	for (LLONG i = 0; i < Data.size(); ++i) {
+	for (int i = 0; i < Data.size(); ++i) {
 		if (i == decimals && decimals > 0) result = '.' + result;
 		result = (char)(Data[i] + '0') + result;
 	}
@@ -175,12 +106,12 @@ std::string gcnum::getstr()
 
 const char* gcnum::getcstr()
 {
-	LONG length = Data.size() + 1;
+	int length = Data.size() + 1;
 	if (sign) ++length;
 	if (decimals > 0) ++length;
 	char* result = (char*)malloc(length * sizeof(char));
 	result[length - 1] = '\0';
-	for (LLONG i = 0, j = Data.size() - 1; i < length && j >= 0; ++i, --j) {
+	for (int i = 0, j = Data.size() - 1; i < length && j >= 0; ++i, --j) {
 		if (sign && i == 0) 
 		{
 			result[0] = '-';
@@ -207,41 +138,52 @@ const LDOUBLE gcnum::getnum()
 	}
 	return result;
 }
-const ULLONG gcnum::getdec()
+const ULLONG gcnum::getdeclen()
 {
 	return this->decimals;
 }
-const ULLONG gcnum::getint()
+const ULLONG gcnum::getintlen()
 {
-	return this->Data.size() - this->decimals;
+	return (ULLONG)this->Data.size() - this->decimals;
 }
-//a>b return 1,a<b return -1,a=b return 0
+const int* gcnum::getdata()
+{
+	int length = this->Data.size() + 2;
+	int* result = new int[length];
+	for (int i = 0, j = 0; i < length && j < Data.size(); ++i, ++j)
+	{
+		if (i == 0) result[i] = this->sign;
+		else if(i == 1) result[i] = this->decimals;
+		else result[i] = this->Data[j];
+	}
+	return result;
+}
 int gcnum::compare(const gcnum& a, const gcnum& b)
 {
 	if (a.sign && !b.sign) return -1;
 	if (!a.sign && b.sign) return 1;
-	LLONG alength = a.Data.size() - a.decimals;
-	LLONG blength = b.Data.size() - b.decimals;
+	int alength = a.Data.size() - a.decimals;
+	int blength = b.Data.size() - b.decimals;
 	if (alength < blength) return -1;
 	if (alength > blength) return 1;
-	for (LLONG i = a.Data.size() - 1, j = b.Data.size() - 1; i >= a.decimals && j >= b.decimals; --i, --j) {
+	for (int i = a.Data.size() - 1, j = b.Data.size() - 1; i >= a.decimals && j >= b.decimals; --i, --j) {
 		if (a.Data[i] < b.Data[j]) return -1;
 		if (a.Data[i] > b.Data[j]) return 1;
 	}
+	for (int i = a.decimals - 1, j = b.decimals - 1; i >= 0 && j >= 0; --i, --j) {
+		if (a.Data[i] < b.Data[j]) return -1;
+		if (a.Data[i] > b.Data[j]) return 1;
+	}
+	if (a.decimals == b.decimals) return 0;
 	if (a.decimals < b.decimals) return -1;
 	if (a.decimals > b.decimals) return 1;
-	for (LLONG i = a.decimals - 1; i >= 0; --i) {
-		if (a.Data[i] < b.Data[i]) return -1;
-		if (a.Data[i] > b.Data[i]) return 1;
-	}
-	return 0;
 }
 
 int gcnum::divcompare(const gcnum& a, const gcnum& b)
 {
 	if (a.Data.size() < b.Data.size()) return -1;
 	if (a.Data.size() > b.Data.size()) return 1;
-	for (LLONG i = a.Data.size() - 1, j = b.Data.size() - 1; i >= 0 && j >= 0; --i, --j) {
+	for (int i = a.Data.size() - 1, j = b.Data.size() - 1; i >= 0 && j >= 0; --i, --j) {
 		if (a.Data[i] < b.Data[j]) return -1;
 		if (a.Data[i] > b.Data[j]) return 1;
 	}
@@ -293,14 +235,14 @@ gcnum gcnum::operator+(const gcnum& val)
 	}
 	if (lnum->sign && rnum->sign) result.sign = 1;
 	int temp, carry = 0;
-	LLONG alength = lnum->Data.size() - lnum->decimals;
-	LLONG blength = rnum->Data.size() - rnum->decimals;
-	LLONG mlnum = alength >= blength ? lnum->Data.size() : rnum->Data.size();
+	int alength = lnum->Data.size() - lnum->decimals;
+	int blength = rnum->Data.size() - rnum->decimals;
+	int mlnum = max(alength, blength) + max(lnum->decimals, rnum->decimals);
 	result.decimals = max(lnum->decimals, rnum->decimals);
-	LLONG n = Dvalue(lnum->decimals, rnum->decimals);
+	int n = Dvalue(lnum->decimals, rnum->decimals);
 	const gcnum* sdectnum = lnum->decimals <= rnum->decimals ? lnum : rnum;
 	const gcnum* ldectnum = lnum->decimals > rnum->decimals ? lnum : rnum;
-	for (LLONG i = 0; i < mlnum; ++i) {
+	for (int i = 0; i < mlnum; ++i) {
 		if (i < n) {
 			temp = ldectnum->Data[i];
 		}
@@ -325,6 +267,7 @@ gcnum gcnum::operator+(const gcnum& val)
 		result.Data.push_back(temp);
 	}
 	if (carry > 0) result.Data.push_back(carry);
+	result.correct();
 	return result;
 }
 gcnum gcnum::operator-(const gcnum& val)
@@ -353,19 +296,24 @@ gcnum gcnum::operator-(const gcnum& val)
 		right.sign = 0;
 		return right - left;
 	}
-	if (compare(*lnum, *rnum) == -1) {
-		std::swap(lnum, rnum);
-		result.sign = 1;
+	switch (compare(*lnum, *rnum))
+	{
+		case -1:
+			std::swap(lnum, rnum); 
+			result.sign = 1; 
+			break;
+		case 0:
+			return gcnum(0);
 	}
 	int temp, carry = 0;
-	LLONG alength = lnum->Data.size() - lnum->decimals;
-	LLONG blength = rnum->Data.size() - rnum->decimals;
+	int alength = lnum->Data.size() - lnum->decimals;
+	int blength = rnum->Data.size() - rnum->decimals;
 	result.decimals = max(lnum->decimals, rnum->decimals);
-	LLONG mlnum = alength >= blength ? lnum->Data.size() : rnum->Data.size();
-	LLONG n = Dvalue(lnum->decimals, rnum->decimals);
+	int mlnum =  max(alength, blength) + max(lnum->decimals, rnum->decimals);
+	int n = Dvalue(lnum->decimals, rnum->decimals);
 	const gcnum* sdectnum = lnum->decimals <= rnum->decimals ? lnum : rnum;
 	const gcnum* ldectnum = lnum->decimals > rnum->decimals ? lnum : rnum;
-	for (LLONG i = 0; i < mlnum; ++i) {
+	for (int i = 0; i < mlnum; ++i) {
 		if (i < n) {
 			temp = 10 - ldectnum->Data[i];
 			carry = 1;
@@ -390,10 +338,7 @@ gcnum gcnum::operator-(const gcnum& val)
 		}
 		result.Data.push_back(temp);
 	}
-	for (LLONG i = result.Data.size() - 1; i >= 0; --i) {
-		if (result.Data[i] == 0) result.Data.pop_back();
-		else break;
-	}
+	result.correct();
 	return result;
 }
 gcnum gcnum::operator*(const gcnum& val)
@@ -405,28 +350,51 @@ gcnum gcnum::operator*(const gcnum& val)
 	if (lnum->sign ^ rnum->sign) result.sign = 1;
 	result.decimals = lnum->decimals + rnum->decimals;
 	SMAMUL(*lnum, *rnum, result);
+	result.correct();
 	return result;
 }
 gcnum gcnum::operator/(const gcnum& val)
 {
-	gcnum quo, rem;
-	this->GCDIV(val, quo, rem);
+	int n = 0;
+	if (GCMath_Setting.accuracy > this->decimals) {
+		n = GCMath_Setting.accuracy - this->decimals;
+	}
+	gcnum lnum = *this;
+	gcnum rnum = val;
+	gcnum rem, qtemp1, qtemp2, temp, quo;
+	int pox = lnum.decimals + rnum.decimals;
+	lnum << pox;
+	rnum << pox;
+	lnum.INTDIV(rnum, qtemp1, rem);
+	rem << n;
+	rem.INTDIV(rnum, qtemp2, temp);
+	qtemp2 >> n;
+	for (int i = 0; i < qtemp2.decimals; ++i) {
+		quo.Data.push_back(qtemp2.Data[i]);
+	}
+	for (int i = 0; i < qtemp1.Data.size(); ++i) {
+		quo.Data.push_back(qtemp1.Data[i]);
+	}
+	quo.decimals = qtemp2.decimals;
 	if (this->sign ^ val.sign) quo.sign = 1;
 	return quo;
 }
 gcnum gcnum::operator%(const gcnum& val)
 {
+	gcnum lnum = *this;
+	gcnum rnum = val;
+	for (int i = 0; i < lnum.decimals; ++i) {
+		lnum.Data.erase(lnum.Data.begin());
+	}
+	for (int i = 0; i < rnum.decimals; ++i) {
+		rnum.Data.erase(rnum.Data.begin());
+	}
+	lnum.decimals = 0; rnum.decimals = 0;
 	gcnum quo, rem;
-	this->INTDIV(val, quo, rem);
+	lnum.INTDIV(rnum, quo, rem);
 	if (this->sign) rem.sign = 1;
+	rem.correct();
 	return rem;
-}
-
-void gcnum::GCDIV(const gcnum& val, gcnum& quo, gcnum& rem)
-{
-	const gcnum* lnum = this;
-	const gcnum* rnum = &val;
-	quo = 1, rem = 1;
 }
 
 void gcnum::INTDIV(const gcnum& val, gcnum& quo, gcnum& rem)
@@ -437,7 +405,7 @@ void gcnum::INTDIV(const gcnum& val, gcnum& quo, gcnum& rem)
 	if (divcompare(lnum, rnum) == -1) {
 		rem = lnum; return;
 	}
-	ULLONG pox = Dvalue(lnum.Data.size(), rnum.Data.size());
+	int pox = Dvalue(lnum.Data.size(), rnum.Data.size());
 	rnum.LEFTMOVE(pox); 
 	do
 	{
@@ -451,17 +419,12 @@ void gcnum::INTDIV(const gcnum& val, gcnum& quo, gcnum& rem)
 	rem = lnum;
 }
 
-void gcnum::DECDIV(const gcnum& val, gcnum& quo, gcnum& rem)
-{
-
-}
-
 void gcnum::GCMUL(const gcnum& val, gcnum& result)
 {
 
 }
 
-gcnum gcnum::ELMOVE(const ULLONG& val)
+gcnum gcnum::ELMOVE(const int& val)
 {
 	gcnum result;
 	for (int i = 0; i < val; ++i) {
@@ -471,7 +434,7 @@ gcnum gcnum::ELMOVE(const ULLONG& val)
 	return result;
 }
 
-gcnum& gcnum::LEFTMOVE(const ULLONG& val)
+gcnum& gcnum::LEFTMOVE(const int& val)
 {
 	for (int i = 0; i < val; ++i) {
 		this->Data.insert(this->Data.begin(), 0);
@@ -479,7 +442,7 @@ gcnum& gcnum::LEFTMOVE(const ULLONG& val)
 	return *this;
 }
 
-gcnum& gcnum::RIGHTMOVE(const ULLONG& val)
+gcnum& gcnum::RIGHTMOVE(const int& val)
 {
 	for (int i = 0; i < val; ++i) {
 		this->Data.erase(this->Data.begin());
@@ -514,12 +477,7 @@ gcnum& gcnum::operator>>(const int& val)
 	for (int i = 0; i < val; ++i) {
 		++(this->decimals);
 	}
-	int index = 0;
-	while (index < this->decimals && this->Data[index] == 0)
-	{
-		this->Data.erase(this->Data.begin());
-		--(this->decimals);
-	}
+	this->correct();
 	return *this;
 }
 
@@ -529,12 +487,7 @@ gcnum& gcnum::operator<<(const int& val)
 		if (this->decimals > 0) --(this->decimals);
 		else this->Data.insert(this->Data.begin(), 0);	
 	}
-	int index = 0;
-	while (index < this->decimals && this->Data[index] == 0)
-	{
-		this->Data.erase(this->Data.begin());
-		--(this->decimals);
-	}
+	this->correct();
 	return *this;
 }
 
@@ -551,19 +504,48 @@ gcnum& gcnum::operator++(int)
 	return temp;
 }
 
-LLONG gcnum::Dvalue(const LLONG& a, const LLONG& b)
+int gcnum::Dvalue(const int& a, const int& b)
 {
 	return a > b ? a - b : b - a;
+}
+
+void gcnum::correct()
+{
+	if ((this->Data.size() == 1) && (this->Data[0] == 0))return;
+	for (int i = this->Data.size() - 1; i >= decimals; --i) {
+		if (this->Data[i] == 0) this->Data.pop_back();
+		else break;
+	}
+	while (this->decimals > 0){
+		if (*(this->Data.begin()) == 0){
+			this->Data.erase(this->Data.begin());
+			--(this->decimals);
+		}
+		else break;
+	}
+	while (this->decimals >= this->Data.size())
+	{
+		this->Data.push_back(0);
+	}
+}
+
+void gcnum::divcorrect()
+{
+	if ((this->Data.size() == 1) && (this->Data[0] == 0))return;
+	for (int i = this->Data.size() - 1; i >= decimals; --i) {
+		if (this->Data[i] == 0) this->Data.pop_back();
+		else break;
+	}
 }
 
 gcnum gcnum::INTADD(const gcnum& a, const gcnum& b)
 {
 	gcnum result;
 	int temp, carry = 0;
-	LLONG mlnum = max(a.Data.size(), b.Data.size());
+	int mlnum = max(a.Data.size(), b.Data.size());
 	const gcnum* sintnum = a.Data.size() <= b.Data.size() ? &a : &b;
 	const gcnum* lintnum = a.Data.size() > b.Data.size() ? &a : &b;
-	for (LLONG i = 0; i < mlnum; ++i) {
+	for (int i = 0; i < mlnum; ++i) {
 		if (i > sintnum->Data.size() - 1) {
 			temp = lintnum->Data[i] + carry;
 			carry = 0;
@@ -588,10 +570,10 @@ gcnum gcnum::INTSUB(const gcnum& a, const gcnum& b)
 {
 	gcnum result;
 	int temp, carry = 0;
-	LLONG mlnum = max(a.Data.size(), b.Data.size());
+	int mlnum = max(a.Data.size(), b.Data.size());
 	const gcnum* sintnum = a.Data.size() <= b.Data.size() ? &a : &b;
 	const gcnum* lintnum = a.Data.size() > b.Data.size() ? &a : &b;
-	for (LLONG i = 0; i < mlnum; ++i) {
+	for (int i = 0; i < mlnum; ++i) {
 		if (i > sintnum->Data.size() - 1) {
 			temp = lintnum->Data[i] - carry;
 			carry = 0;
@@ -608,7 +590,7 @@ gcnum gcnum::INTSUB(const gcnum& a, const gcnum& b)
 		}
 		result.Data.push_back(temp);
 	}
-	for (LLONG i = result.Data.size() - 1; i >= 0; --i) {
+	for (int i = result.Data.size() - 1; i >= 0; --i) {
 		if (result.Data[i] == 0) result.Data.pop_back();
 		else break;
 	}
@@ -759,7 +741,7 @@ std::istream& operator>>(std::istream& in, gcnum& obj)
 {
 	std::string val;
 	in >> val;
-	for (LLONG i = val.length() - 1; i >= 0; --i) {
+	for (int i = val.length() - 1; i >= 0; --i) {
 		if (val[i] == '-') {
 			obj.sign = 1;
 		}
@@ -776,7 +758,7 @@ std::istream& operator>>(std::istream& in, gcnum& obj)
 std::ostream& operator<<(std::ostream& out, gcnum obj)
 {
 	if (obj.sign) out << "-";
-	for (LLONG i = obj.Data.size() - 1, j = 0; i >= 0; --i, ++j) {
+	for (int i = obj.Data.size() - 1, j = 0; i >= 0; --i, ++j) {
 		if (j == obj.Data.size() - obj.decimals && obj.decimals > 0) 
 		{
 			out << ".";
@@ -790,7 +772,7 @@ std::ifstream& operator>>(std::ifstream& in, gcnum& obj)
 {
 	std::string val;
 	in >> val;
-	for (LLONG i = val.length() - 1; i >= 0; --i) {
+	for (int i = val.length() - 1; i >= 0; --i) {
 		if (val[i] == '-') {
 			obj.sign = 1;
 		}
@@ -807,7 +789,7 @@ std::ifstream& operator>>(std::ifstream& in, gcnum& obj)
 std::ofstream& operator<<(std::ofstream& out, gcnum& obj)
 {
 	if (obj.sign) out << "-";
-	for (LLONG i = obj.Data.size() - 1, j = 0; i >= 0; --i, ++j) {
+	for (int i = obj.Data.size() - 1, j = 0; i >= 0; --i, ++j) {
 		if (j == obj.Data.size() - obj.decimals && obj.decimals > 0)
 		{
 			out << ".";
@@ -815,6 +797,37 @@ std::ofstream& operator<<(std::ofstream& out, gcnum& obj)
 		out << (char)(obj.Data[i] + '0');
 	}
 	return out;
+}
+
+gcnum abs(gcnum _X)
+{
+	if (_X < 0) _X = -_X;
+	return _X;
+}
+
+gcnum pow(gcnum _X, gcnum _Y)
+{
+	return gcnum();
+}
+
+gcnum sqrt(gcnum _X)
+{
+	return gcnum();
+}
+
+gcnum ceil(gcnum _X)
+{
+	return gcnum();
+}
+
+gcnum floor(gcnum _X)
+{
+	return gcnum();
+}
+
+gcnum round(gcnum _X)
+{
+	return gcnum();
 }
 
 

@@ -6,6 +6,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+constexpr auto PI = 3.1415926535898;
+constexpr auto E = 2.718281828459;
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 typedef int BOOL;
@@ -25,7 +27,7 @@ struct {
 	BOOL mulmode = 0;
 }GCMath_Setting;
 
-class gcnum 
+class gcnum
 {
 public:	
 	gcnum();
@@ -43,8 +45,9 @@ public:
 	std::string getstr();
 	const char* getcstr();
 	const LDOUBLE getnum();
-	const ULLONG getdec();
-	const ULLONG getint();
+	const ULLONG getdeclen();
+	const ULLONG getintlen();
+	const int* getdata();
 
 	bool operator==(const gcnum& val);
 	bool operator!=(const gcnum& val);
@@ -129,35 +132,31 @@ public:
 
 	friend std::ifstream& operator>>(std::ifstream& in, gcnum& obj);
 	friend std::ofstream& operator<<(std::ofstream& out, gcnum& obj);
-	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
-	void DECDIV(const gcnum& val, gcnum& quo, gcnum& rem);
-	void GCDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+
 private:
-// 	static struct point{
-// 		ULLONG start, end, length;
-// 		point(ULLONG start,ULLONG end) {
-// 			this->length = end - start + 1;
-// 			this->start = start;
-// 			this->end = end;
-// 		}
-// 	};
 	static int compare(const gcnum& a, const gcnum& b);
 	static int divcompare(const gcnum& a, const gcnum& b);
+	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
 	static gcnum INTADD(const gcnum& a, const gcnum& b);
 	static gcnum INTSUB(const gcnum& a, const gcnum& b);
-// 	void GCDIV(const gcnum& val, gcnum& quo, gcnum& rem);
-// 	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
-// 	void DECDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+	static gcnum ELMOVE(const int& val);
 	void GCMUL(const gcnum& val, gcnum& result);
-	static gcnum ELMOVE(const ULLONG& val);
-	gcnum& LEFTMOVE(const ULLONG& val);
-	gcnum& RIGHTMOVE(const ULLONG& val);
+	gcnum& LEFTMOVE(const int& val);
+	gcnum& RIGHTMOVE(const int& val);
 	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
-	static LLONG Dvalue(const LLONG& a, const LLONG& b);
+	static int Dvalue(const int& a, const int& b);
+	void correct();
+	void divcorrect();
 	std::vector<BYTE> Data;
-	int sign = 0;
-	ULLONG decimals = 0;
+	int sign = 0, decimals = 0;  
 };
+
+gcnum abs(gcnum _X);
+gcnum pow(gcnum _X, gcnum _Y);
+gcnum sqrt(gcnum _X);
+gcnum ceil(gcnum _X);
+gcnum floor(gcnum _X);
+gcnum round(gcnum _X);
 
 #endif
 

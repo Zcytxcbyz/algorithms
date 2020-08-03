@@ -5,13 +5,9 @@ using namespace std;
 int main()
 {
 	ios_base::sync_with_stdio(false);
-	gcnum a = "34324343243243252335325";
-	gcnum b = "94858";
-	gcnum quo, rem;
-	a.INTDIV(b, quo, rem);
-	cout << a << endl;
-	cout << b << endl << endl;
-	cout << quo << endl;
-	cout << rem << endl;
+	gcnum a = 56.2;
+	gcnum b = 717.77;
+	cout << a << " - " << b << endl << endl;
+	cout << a - b << endl;
 	system("pause");
 }
