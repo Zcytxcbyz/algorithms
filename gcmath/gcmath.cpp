@@ -369,7 +369,7 @@ gcnum gcnum::operator/(const gcnum& val)
 	rem << n;
 	rem.INTDIV(rnum, qtemp2, temp);
 	qtemp2 >> n;
-	for (int i = 0; i < qtemp2.decimals; ++i) {
+	for (int i = 0; i < qtemp2.decimals && i < qtemp2.Data.size(); ++i) {
 		quo.Data.push_back(qtemp2.Data[i]);
 	}
 	for (int i = 0; i < qtemp1.Data.size(); ++i) {
@@ -504,6 +504,19 @@ gcnum& gcnum::operator++(int)
 	return temp;
 }
 
+gcnum& gcnum::operator--()
+{
+	*this = (*this) - gcnum(1);
+	return *this;
+}
+
+gcnum& gcnum::operator--(int)
+{
+	gcnum temp = *this;
+	*this = (*this) - gcnum(1);
+	return temp;
+}
+
 int gcnum::Dvalue(const int& a, const int& b)
 {
 	return a > b ? a - b : b - a;
@@ -511,7 +524,10 @@ int gcnum::Dvalue(const int& a, const int& b)
 
 void gcnum::correct()
 {
-	if ((this->Data.size() == 1) && (this->Data[0] == 0))return;
+	if ((this->Data.size() == 1) && (this->Data[0] == 0)) {
+		this->decimals = 0; this->sign = 0;
+		return;
+	}
 	for (int i = this->Data.size() - 1; i >= decimals; --i) {
 		if (this->Data[i] == 0) this->Data.pop_back();
 		else break;
@@ -799,35 +815,46 @@ std::ofstream& operator<<(std::ofstream& out, gcnum& obj)
 	return out;
 }
 
+gcnum gcnum::GETINTDEC(INTDECMODE mode)
+{
+	gcnum result; result.sign = this->sign;
+	if (decimals == 0) return *this;
+	for (int i = decimals; i < Data.size(); ++i) {
+		result.Data.push_back(Data[i]);
+	}
+	if (mode == INTDECMODE::CEIL) {
+		if (!sign) ++result;
+	}
+	else if (mode == INTDECMODE::FLOOR) {
+		if (sign) --result;
+	}
+	else if (mode == INTDECMODE::ROUND) {
+		int nnump = Data[decimals - 1];
+		if (sign)result -= (nnump >= 5 ? 1 : 0);
+		else result += (nnump >= 5 ? 1 : 0);
+	}
+	return result;
+}
+
 gcnum abs(gcnum _X)
 {
-	if (_X < 0) _X = -_X;
+	if (_X.sign == 1) _X.sign = 0;
 	return _X;
-}
-
-gcnum pow(gcnum _X, gcnum _Y)
-{
-	return gcnum();
-}
-
-gcnum sqrt(gcnum _X)
-{
-	return gcnum();
 }
 
 gcnum ceil(gcnum _X)
 {
-	return gcnum();
+	return _X.GETINTDEC(gcnum::INTDECMODE::CEIL);
 }
 
 gcnum floor(gcnum _X)
 {
-	return gcnum();
+	return _X.GETINTDEC(gcnum::INTDECMODE::FLOOR);
 }
 
 gcnum round(gcnum _X)
 {
-	return gcnum();
+	return _X.GETINTDEC(gcnum::INTDECMODE::ROUND);
 }
 
 

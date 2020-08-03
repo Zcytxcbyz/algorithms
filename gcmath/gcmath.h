@@ -71,6 +71,8 @@ public:
 	gcnum& operator%=(const gcnum& val);
 	gcnum& operator++();
 	gcnum& operator++(int);
+	gcnum& operator--();
+	gcnum& operator--(int);
 
 	bool operator==(const double& val);
 	bool operator!=(const double& val);
@@ -133,30 +135,29 @@ public:
 	friend std::ifstream& operator>>(std::ifstream& in, gcnum& obj);
 	friend std::ofstream& operator<<(std::ofstream& out, gcnum& obj);
 
+	friend gcnum abs(gcnum _X);
+	friend gcnum ceil(gcnum _X);
+	friend gcnum floor(gcnum _X);
+	friend gcnum round(gcnum _X);
 private:
-	static int compare(const gcnum& a, const gcnum& b);
-	static int divcompare(const gcnum& a, const gcnum& b);
-	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
-	static gcnum INTADD(const gcnum& a, const gcnum& b);
-	static gcnum INTSUB(const gcnum& a, const gcnum& b);
-	static gcnum ELMOVE(const int& val);
-	void GCMUL(const gcnum& val, gcnum& result);
+	int sign = 0, decimals = 0;
+	enum class INTDECMODE { CEIL, FLOOR, ROUND };
+	gcnum GETINTDEC(INTDECMODE mode);
 	gcnum& LEFTMOVE(const int& val);
 	gcnum& RIGHTMOVE(const int& val);
-	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
-	static int Dvalue(const int& a, const int& b);
 	void correct();
 	void divcorrect();
 	std::vector<BYTE> Data;
-	int sign = 0, decimals = 0;  
+	static int compare(const gcnum& a, const gcnum& b);
+	static int divcompare(const gcnum& a, const gcnum& b);
+	static gcnum INTADD(const gcnum& a, const gcnum& b);
+	static gcnum INTSUB(const gcnum& a, const gcnum& b);
+	static gcnum ELMOVE(const int& val);
+	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
+	static int Dvalue(const int& a, const int& b);
+	void GCMUL(const gcnum& val, gcnum& result);
+	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
 };
-
-gcnum abs(gcnum _X);
-gcnum pow(gcnum _X, gcnum _Y);
-gcnum sqrt(gcnum _X);
-gcnum ceil(gcnum _X);
-gcnum floor(gcnum _X);
-gcnum round(gcnum _X);
 
 #endif
 
