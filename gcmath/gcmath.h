@@ -23,8 +23,7 @@ typedef long double LDOUBLE;
 typedef float FLOAT;
 
 struct {
-	UINT accuracy = 100;
-	BOOL mulmode = 0;
+	UINT accuracy = 500;
 }GCMath_Setting;
 
 class gcnum
@@ -155,7 +154,6 @@ private:
 	static gcnum ELMOVE(const int& val);
 	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
 	static int Dvalue(const int& a, const int& b);
-	void GCMUL(const gcnum& val, gcnum& result);
 	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
 };
 

@@ -346,8 +346,8 @@ gcnum gcnum::operator*(const gcnum& val)
 	gcnum result;
 	const gcnum* lnum = this;
 	const gcnum* rnum = &val;
-	if (lnum->Data.size() < rnum->Data.size())std::swap(lnum, rnum);
 	if (lnum->sign ^ rnum->sign) result.sign = 1;
+	if (lnum->Data.size() < rnum->Data.size())std::swap(lnum, rnum);
 	result.decimals = lnum->decimals + rnum->decimals;
 	SMAMUL(*lnum, *rnum, result);
 	result.correct();
@@ -417,11 +417,6 @@ void gcnum::INTDIV(const gcnum& val, gcnum& quo, gcnum& rem)
 		quo = INTADD(quo, ELMOVE(pox));
 	} while (divcompare(lnum, val) >= 0);
 	rem = lnum;
-}
-
-void gcnum::GCMUL(const gcnum& val, gcnum& result)
-{
-
 }
 
 gcnum gcnum::ELMOVE(const int& val)
