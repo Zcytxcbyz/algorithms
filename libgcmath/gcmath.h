@@ -27,6 +27,7 @@ class gcnum
 {
 public:	
 	LIBGCMATH_API gcnum();
+	LIBGCMATH_API ~gcnum();
 	LIBGCMATH_API gcnum(UINT val);
 	LIBGCMATH_API gcnum(INT val);
 	LIBGCMATH_API gcnum(ULONG val);

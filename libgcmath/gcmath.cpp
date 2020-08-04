@@ -11,6 +11,8 @@ LIBGCMATH_API UINT GCMath_Accuracy = 500;
 
 gcnum::gcnum(){ }
 
+gcnum::~gcnum(){ }
+
 gcnum::gcnum(UINT val)
 {
 	std::string str = std::to_string(val);
