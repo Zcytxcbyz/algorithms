@@ -352,9 +352,6 @@ gcnum gcnum::operator*(const gcnum& val)
 	gcnum result;
 	const gcnum* lnum = this;
 	const gcnum* rnum = &val;
-	if (!GCMath_Mulmode && lnum->Data.size() > 20 && rnum->Data.size() > 20) {
-		GCMath_Mulmode = 1;
-	}
 	if (lnum->sign ^ rnum->sign) result.sign = 1;
 	result.decimals = lnum->decimals + rnum->decimals;
 	if (GCMath_Mulmode) {

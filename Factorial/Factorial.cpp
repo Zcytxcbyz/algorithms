@@ -21,7 +21,6 @@ void output()
 int main()
 {
     ios_base::sync_with_stdio(false);
-    GCMath_Mulmode = 1;
     ULLONG n;
     clock_t startTime, endTime;
     cout << "n=";

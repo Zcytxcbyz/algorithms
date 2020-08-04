@@ -5,8 +5,11 @@ using namespace std;
 
 int main()
 {
-    gcnum a = "123456789123456789";
-    gcnum b = "123456789123456789";
+    gcnum a, b;
+	cout << "a=";
+	cin >> a;
+	cout << "b=";
+	cin >> b;
     cout << a * b << endl;
     system("pause");
 }
