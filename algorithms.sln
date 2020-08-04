@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringConverter", "StringConverter\StringConverter.vcxproj", "{A125E2AC-60CA-4308-9B93-E41E0A4412F6}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rnpcalc", "Rnpcalc\Rnpcalc.vcxproj", "{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgcmath", "libgcmath\libgcmath.vcxproj", "{4F93B2BA-32B8-4FEB-8E9A-0662D1789100}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlltext", "dlltext\dlltext.vcxproj", "{58817425-5C7F-4802-9777-56B20F927391}"
@@ -21,22 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Debug|x64.ActiveCfg = Debug|x64
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Debug|x64.Build.0 = Debug|x64
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Debug|x86.ActiveCfg = Debug|Win32
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Debug|x86.Build.0 = Debug|Win32
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Release|x64.ActiveCfg = Release|x64
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Release|x64.Build.0 = Release|x64
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Release|x86.ActiveCfg = Release|Win32
-		{A125E2AC-60CA-4308-9B93-E41E0A4412F6}.Release|x86.Build.0 = Release|Win32
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Debug|x64.ActiveCfg = Debug|x64
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Debug|x64.Build.0 = Debug|x64
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Debug|x86.ActiveCfg = Debug|Win32
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Debug|x86.Build.0 = Debug|Win32
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Release|x64.ActiveCfg = Release|x64
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Release|x64.Build.0 = Release|x64
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Release|x86.ActiveCfg = Release|Win32
-		{A9E5DC7C-29DF-467F-B6AF-D8D9773098BE}.Release|x86.Build.0 = Release|Win32
 		{4F93B2BA-32B8-4FEB-8E9A-0662D1789100}.Debug|x64.ActiveCfg = Debug|x64
 		{4F93B2BA-32B8-4FEB-8E9A-0662D1789100}.Debug|x64.Build.0 = Debug|x64
 		{4F93B2BA-32B8-4FEB-8E9A-0662D1789100}.Debug|x86.ActiveCfg = Debug|Win32
