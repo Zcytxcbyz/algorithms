@@ -15,16 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gcmath.cpp">
+    <ClCompile Include="dlltext.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="contorl.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gcmath.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

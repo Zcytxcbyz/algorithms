@@ -1,9 +1,13 @@
+#include <fstream>
+#include <iostream>
+#include "framework.h"
 #include "gcmath.h"
 #define GCNUMTYPE std::vector<BYTE>
 #define ITER iterator
 #define CITER const_iterator
 #define GCITER GCNUMTYPE::ITER
 #define GCCITER GCNUMTYPE::CITER
+LIBGCMATH_API UINT GCMath_Accuracy = 500;
 
 gcnum::gcnum(){ }
 
@@ -356,8 +360,8 @@ gcnum gcnum::operator*(const gcnum& val)
 gcnum gcnum::operator/(const gcnum& val)
 {
 	int n = 0;
-	if (GCMath_Setting.accuracy > this->decimals) {
-		n = GCMath_Setting.accuracy - this->decimals;
+	if (GCMath_Accuracy > this->decimals) {
+		n = GCMath_Accuracy - this->decimals;
 	}
 	gcnum lnum = *this;
 	gcnum rnum = val;
@@ -908,3 +912,72 @@ gcnum& gcnum::operator=(const BYTE& val) {
 	return *this;
 }
 
+gcnum operator+(const double& a, const gcnum& b) {
+	return gcnum(a) + b;
+}
+gcnum operator-(const double& a, const gcnum& b) {
+	return gcnum(a) - b;
+}
+gcnum operator*(const double& a, const gcnum& b) {
+	return gcnum(a) * b;
+}
+gcnum operator/(const double& a, const gcnum& b) {
+	return gcnum(a) / b;
+}
+gcnum operator%(const double& a, const gcnum& b) {
+	return gcnum(a) % b;
+}
+ 
+bool operator==(const double& a, const gcnum& b) {
+	return gcnum(a) == b;
+}
+bool operator!=(const double& a, const gcnum& b) {
+	return gcnum(a) != b;
+}
+bool operator<(const double& a, const gcnum& b) {
+	return gcnum(a) < b;
+}
+bool operator>(const double& a, const gcnum& b) {
+	return gcnum(a) > b;
+}
+bool operator<=(const double& a, const gcnum& b) {
+	return gcnum(a) <= b;
+}
+bool operator>=(const double& a, const gcnum& b) {
+	return gcnum(a) >= b;
+}
+
+gcnum operator+(const int& a, const gcnum& b) {
+	return gcnum(a) + b;
+}
+gcnum operator-(const int& a, const gcnum& b) {
+	return gcnum(a) - b;
+}
+gcnum operator*(const int& a, const gcnum& b) {
+	return gcnum(a) * b;
+}
+gcnum operator/(const int& a, const gcnum& b) {
+	return gcnum(a) / b;
+}
+gcnum operator%(const int& a, const gcnum& b) {
+	return gcnum(a) % b;
+}
+
+bool operator==(const int& a, const gcnum& b) {
+	return gcnum(a) == b;
+}
+bool operator!=(const int& a, const gcnum& b) {
+	return gcnum(a) != b;
+}
+bool operator<(const int& a, const gcnum& b) {
+	return gcnum(a) < b;
+}
+bool operator>(const int& a, const gcnum& b) {
+	return gcnum(a) > b;
+}
+bool operator<=(const int& a, const gcnum& b) {
+	return gcnum(a) <= b;
+}
+bool operator>=(const int& a, const gcnum& b) {
+	return gcnum(a) >= b;
+}

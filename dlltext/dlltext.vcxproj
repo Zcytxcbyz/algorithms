@@ -18,18 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="contorl.cpp" />
-    <ClCompile Include="gcmath.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gcmath.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a74259b9-b418-47c8-ba73-faa764caabd6}</ProjectGuid>
-    <RootNamespace>gcmath</RootNamespace>
+    <ProjectGuid>{58817425-5c7f-4802-9777-56b20f927391}</ProjectGuid>
+    <RootNamespace>dlltext</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,6 +138,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="dlltext.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libgcmath\libgcmath.vcxproj">
+      <Project>{4f93b2ba-32b8-4feb-8e9a-0662d1789100}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
