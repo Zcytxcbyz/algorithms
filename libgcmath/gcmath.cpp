@@ -8,7 +8,7 @@
 #define GCITER GCNUMTYPE::ITER
 #define GCCITER GCNUMTYPE::CITER
 LIBGCMATH_API UINT GCMath_Accuracy = 500;
-
+LIBGCMATH_API BOOL GCMath_Mulmode = 0;
 gcnum::gcnum(){ }
 
 gcnum::~gcnum(){ }
@@ -352,10 +352,18 @@ gcnum gcnum::operator*(const gcnum& val)
 	gcnum result;
 	const gcnum* lnum = this;
 	const gcnum* rnum = &val;
+	if (!GCMath_Mulmode && lnum->Data.size() > 20 && rnum->Data.size() > 20) {
+		GCMath_Mulmode = 1;
+	}
 	if (lnum->sign ^ rnum->sign) result.sign = 1;
-	if (lnum->Data.size() < rnum->Data.size())std::swap(lnum, rnum);
 	result.decimals = lnum->decimals + rnum->decimals;
-	SMAMUL(*lnum, *rnum, result);
+	if (GCMath_Mulmode) {
+		karatsuba(*lnum, *rnum, result);
+	}
+	else {
+		if (lnum->Data.size() < rnum->Data.size())std::swap(lnum, rnum);
+		SMAMUL(*lnum, *rnum, result);
+	}
 	result.correct();
 	return result;
 }
@@ -423,6 +431,53 @@ void gcnum::INTDIV(const gcnum& val, gcnum& quo, gcnum& rem)
 		quo = INTADD(quo, ELMOVE(pox));
 	} while (divcompare(lnum, val) >= 0);
 	rem = lnum;
+}
+
+inline void gcnum::karatsuba(const gcnum& a, const gcnum& b,gcnum& result)
+{
+	result = karatsuba(a, b, 0, 0, a.Data.size() - 1, b.Data.size() - 1);
+}
+
+gcnum gcnum::karatsuba(const gcnum& a, const gcnum& b, int xa, int xb, int ya, int yb)
+{
+	int alen = getkaralen(xa, ya);
+	int blen = getkaralen(xb, yb);
+	if (alen < 10 || blen < 10) return karatmul(a, b, xa, xb, ya, yb);
+	int leN = max(alen / 2, blen / 2);
+	gcnum ac = karatsuba(a, b, leN, leN, ya, yb);
+	gcnum bd = karatsuba(a, b, xa, xb, leN + 1, leN + 1);
+	gcnum ad = karatsuba(a, b, leN, xb, ya, leN + 1);
+	gcnum bc = karatsuba(a, b, xa, leN, leN + 1, yb);
+	return INTSUB(INTSUB(ac.LEFTMOVE(leN * 2), INTSUB(ad, bc).LEFTMOVE(leN)), bd);
+}
+
+gcnum gcnum::karatmul(const gcnum& a, const gcnum& b, int xa, int xb, int ya, int yb)
+{
+	gcnum result;
+	int temp, carry = 0;
+	for (int j = xb; j <= yb; ++j) {
+		for (int i = xa; i <= ya; ++i) {
+			temp = a.Data[i] * b.Data[j] + carry;
+			carry = temp / 10;
+			temp %= 10;
+			if ((i + j) >= result.Data.size()) {
+				result.Data.push_back(temp);
+			}
+			else {
+				result.Data[i + j] += temp;
+				carry += result.Data[i + j] / 10;
+				result.Data[i + j] %= 10;
+			}
+		}
+		if (carry > 0)result.Data.push_back(carry);
+		carry = 0;
+	}
+	return result;
+}
+
+inline int gcnum::getkaralen(int x, int y)
+{
+	return y - x + 1;
 }
 
 gcnum gcnum::ELMOVE(const int& val)

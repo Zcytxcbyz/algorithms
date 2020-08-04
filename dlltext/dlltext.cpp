@@ -1,11 +1,12 @@
 ﻿#include "../libgcmath/gcmath.h"
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 int main()
 {
-    gcnum a = 255;
-    gcnum b = 32767;
-    cout << GCMath_Accuracy;
-    cout << "Hello World!\n";
+    gcnum a = "123456789123456789";
+    gcnum b = "123456789123456789";
+    cout << a * b << endl;
+    system("pause");
 }

@@ -22,7 +22,7 @@ LIBGCMATH_API typedef double DOUBLE;
 LIBGCMATH_API typedef long double LDOUBLE;
 LIBGCMATH_API typedef float FLOAT;
 extern LIBGCMATH_API UINT GCMath_Accuracy;
-
+extern LIBGCMATH_API BOOL GCMath_Mulmode;
 class gcnum
 {
 public:	
@@ -180,6 +180,10 @@ private:
 	static void SMAMUL(const gcnum& BNUM, const gcnum& SNUM, gcnum& result);
 	static int Dvalue(const int& a, const int& b);
 	void INTDIV(const gcnum& val, gcnum& quo, gcnum& rem);
+	inline void karatsuba(const gcnum& a, const gcnum& b, gcnum& result);
+	gcnum karatsuba(const gcnum& a, const gcnum& b, int xa, int xb, int ya, int yb);
+	gcnum karatmul(const gcnum& a, const gcnum& b, int xa, int xb, int ya, int yb);
+	inline int getkaralen(int x, int y);
 };
 
 
