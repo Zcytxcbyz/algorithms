@@ -1,16 +1,46 @@
-﻿#include "Rnpcalc.h"
+﻿#define DEBUG
+#include "Rnpcalc.h"
 
+#ifndef DEBUG
 int main(int argc, char* argv[])
 {
 	if (argc == 2)
 	{
-		vector<string> expr = petreat(argv[1]);
+		vector<string> expr = cutting(argv[1]);
 		vector<string> rnp = transexpr(expr);
 		cout << calculate(rnp);
 	}
 }
+#else
+int main()
+{
+	string input;
+	cout << "Expression: ";
+	cin >> input;
+	vector<string> expr = cutting(input);
+	for (auto inter = expr.begin(); inter != expr.end(); ++inter)
+	{
+		cout << *inter;
+		if (inter != expr.end() - 1)
+			cout << " ";
+		else
+			cout << endl;
+	}
+	vector<string> rnp = transexpr(expr);
+	for (auto inter = rnp.begin(); inter != rnp.end(); ++inter)
+	{
+		cout << *inter;
+		if (inter != rnp.end() - 1)
+			cout << " "; 
+		else 
+			cout << endl;
+	}
+	cout << calculate(rnp) << endl;
+	system("pause");
+}
+#endif
 
-vector<string> petreat(string expr)
+vector<string> cutting(string expr)
 {
 	int k = 0;
 	vector<string> result;
@@ -95,18 +125,27 @@ double calculate(vector<string> expr)
 		}
 		else if (expr[i].length() == 1 && ischaracter(expr[i][0]))
 		{
-			double a = t_stack.top();
-			t_stack.pop();
-			double b = t_stack.top();
-			t_stack.pop();
-			switch (expr[i][0])
-			{
-			case '+':t_stack.push(b + a); break;
-			case '-':t_stack.push(b - a); break;
-			case '*':t_stack.push(b * a); break;
-			case '/':t_stack.push(b / a); break;
-			case '^':t_stack.push(pow(b, a)); break;
-			default:break;
+			if (expr[i][0] == '!') {
+				double a = t_stack.top();
+				t_stack.pop();
+				t_stack.push(!a);
+			}
+			else {
+				double a = t_stack.top();
+				t_stack.pop();
+				double b = t_stack.top();
+				t_stack.pop();
+				switch (expr[i][0])
+				{
+				case '+':t_stack.push(b + a); break;
+				case '-':t_stack.push(b - a); break;
+				case '*':t_stack.push(b * a); break;
+				case '/':t_stack.push(b / a); break;
+				case '^':t_stack.push(pow(b, a)); break;
+				case '&':t_stack.push(b && a); break;
+				case '|':t_stack.push(b || a); break;
+				default:break;
+				}
 			}
 		}
 	}
@@ -121,18 +160,28 @@ bool isoperand(string str)
 bool ischaracter(char str)
 {
 	return
-		str == '+' || str == '-' || str == '*' || str == '/' || str == '^';
+		str == '+' ||
+		str == '-' ||
+		str == '*' ||
+		str == '/' ||
+		str == '^' ||
+		str == '|' ||
+		str == '&' ||
+		str == '!';
 }
 
 int getpriority(char str)
 {
 	switch (str)
 	{
-	case '+':return 0; break;
-	case '-':return 0; break;
-	case '*':return 1; break;
-	case '/':return 1; break;
-	case '^':return 2; break;
+	case '|':return 0; break;
+	case '&':return 1; break;
+	case '+':return 2; break;
+	case '-':return 2; break;
+	case '*':return 3; break;
+	case '/':return 3; break;
+	case '!':return 4; break;
+	case '^':return 5; break;
 	default:return -1; break;
 	}
 }

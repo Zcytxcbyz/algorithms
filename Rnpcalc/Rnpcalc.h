@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-vector<string> petreat(string expr);
+vector<string> cutting(string expr);
 vector<string> transexpr(vector<string> expr);
 double calculate(vector<string> expr);
 bool isoperand(string str);
