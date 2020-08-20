@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rnpcalc", "Rnpcalc\Rnpcalc.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gcmath", "gcmath\gcmath.vcxproj", "{A74259B9-B418-47C8-BA73-FAA764CAABD6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libRnpCalc", "libRnpCalc\libRnpCalc.vcxproj", "{1325166B-EC9C-49E1-8327-B200B70FF5A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{A74259B9-B418-47C8-BA73-FAA764CAABD6}.Release|x64.Build.0 = Release|x64
 		{A74259B9-B418-47C8-BA73-FAA764CAABD6}.Release|x86.ActiveCfg = Release|Win32
 		{A74259B9-B418-47C8-BA73-FAA764CAABD6}.Release|x86.Build.0 = Release|Win32
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Debug|x64.ActiveCfg = Debug|x64
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Debug|x64.Build.0 = Debug|x64
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Debug|x86.ActiveCfg = Debug|Win32
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Debug|x86.Build.0 = Debug|Win32
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Release|x64.ActiveCfg = Release|x64
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Release|x64.Build.0 = Release|x64
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Release|x86.ActiveCfg = Release|Win32
+		{1325166B-EC9C-49E1-8327-B200B70FF5A2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
