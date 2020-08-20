@@ -65,6 +65,10 @@ LIBRNPCALC_API double calculation(string expr) {
 	}
 	return result.back();
 }
+
+LIBRNPCALC_API double calculation(const char* expr) {
+	return calculation(string(expr));
+}
 vector<string> pretreat(string expr) {
 	ReplaceAll(expr, "PI", "3.1415926535898");
 	ReplaceAll(expr, "E", "2.718281828459");
