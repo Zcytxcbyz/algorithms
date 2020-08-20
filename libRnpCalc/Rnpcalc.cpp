@@ -30,7 +30,7 @@ void ReplaceAll(string& str, string sub_str, string new_str) {
 	}
 }
 
-LIBRNPCALC_API double calculation(string expr) {
+LIBRNPCALC_API double calculate(string expr) {
 	srand(time(0));
 	vector<double> result;
 	auto rtexpr = retreat(pretreat(expr));	
@@ -66,8 +66,8 @@ LIBRNPCALC_API double calculation(string expr) {
 	return result.back();
 }
 
-LIBRNPCALC_API double calculation(const char* expr) {
-	return calculation(string(expr));
+LIBRNPCALC_API double calculate(const char* expr) {
+	return calculate(string(expr));
 }
 vector<string> pretreat(string expr) {
 	ReplaceAll(expr, "PI", "3.1415926535898");
