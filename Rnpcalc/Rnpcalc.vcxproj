@@ -19,11 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="calc.cpp" />
     <ClCompile Include="Rnpcalc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RnpCalc.h" />
+    <ProjectReference Include="..\libRnpCalc\libRnpCalc.vcxproj">
+      <Project>{1325166b-ec9c-49e1-8327-b200b70ff5a2}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
