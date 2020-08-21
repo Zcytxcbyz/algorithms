@@ -5,4 +5,4 @@
 #endif
 
 LIBRNPCALC_API double calculate(string expr);
-LIBRNPCALC_API double calculate(const char* expr);
+extern "C" LIBRNPCALC_API double calculate(const char* expr);

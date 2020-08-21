@@ -66,7 +66,7 @@ LIBRNPCALC_API double calculate(string expr) {
 	return result.back();
 }
 
-LIBRNPCALC_API double calculate(const char* expr) {
+extern "C" LIBRNPCALC_API double calculate(const char* expr) {
 	return calculate(string(expr));
 }
 vector<string> pretreat(string expr) {
