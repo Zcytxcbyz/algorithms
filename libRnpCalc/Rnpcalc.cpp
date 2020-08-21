@@ -23,6 +23,7 @@ int getpriority(string str);
 vector<string> exprtran(vector<string> expr);
 double exprcalc(vector<string>expr);
 double funccalc(function expr);
+LONG WINAPI MyUnhandledExceptionFilter(EXCEPTION_POINTERS* exp);
 void ReplaceAll(string& str, string sub_str, string new_str) {
 	while (str.find(sub_str) != string::npos)
 	{
@@ -31,6 +32,7 @@ void ReplaceAll(string& str, string sub_str, string new_str) {
 }
 
 LIBRNPCALC_API double calculate(string expr) {
+	SetUnhandledExceptionFilter(MyUnhandledExceptionFilter);
 	srand(time(0));
 	vector<double> result;
 	auto rtexpr = retreat(pretreat(expr));	
@@ -400,4 +402,10 @@ double funccalc(function expr) {
 	if (expr.name == "islessequal") return islessequal(params[0], params[1]);
 	if (expr.name == "islessgreater") return islessgreater(params[0], params[1]);
 	if (expr.name == "isunordered") return isunordered(params[0], params[1]);
+}
+
+LONG WINAPI MyUnhandledExceptionFilter(EXCEPTION_POINTERS* exp)
+{
+	FatalAppExit(0, L"An unknown exception occurred.");
+	return EXCEPTION_EXECUTE_HANDLER;
 }
